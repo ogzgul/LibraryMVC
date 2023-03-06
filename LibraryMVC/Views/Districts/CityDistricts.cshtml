@@ -1,0 +1,6 @@
+﻿@model IEnumerable<LibraryMVC.Models.District>
+
+
+@foreach (var district in Model) {
+     <option value="@district.Id.ToString()">@district.Name</option>
+}

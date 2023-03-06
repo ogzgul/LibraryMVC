@@ -1,0 +1,6 @@
+﻿@model IEnumerable<LibraryMVC.Models.Library>
+
+@foreach (var library in Model) {
+    <option value="@library.Id.ToString()">@library.Name</option>
+}
+ 

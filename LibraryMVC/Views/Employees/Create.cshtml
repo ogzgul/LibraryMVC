@@ -1,0 +1,76 @@
+﻿@model LibraryMVC.Models.Employee
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<script>
+    function GetDistricts(cityId) {
+        $("#Library_DistrictId").load("@Url.Action("CityDistricts","Districts")?cityId=" + cityId.toString(),
+            function () {
+                var districtId = $("#Library_DistrictId").val();
+                GetLibraries(districtId);
+            }
+        ) 
+    
+    }
+   
+    function GetLibraries(districtId){
+        
+        $("#LibraryId").load("@Url.Action("DistrictsLibraries","Libraries")?districtId=" + districtId.toString())
+    }
+</script>
+
+<h1>Create</h1>
+
+<h4>Employee</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BirthDate" class="control-label"></label>
+                <input asp-for="BirthDate" type="date" class="form-control" />
+                <span asp-validation-for="BirthDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Library.District.CityId" class="control-label"></label>
+                <select asp-for="Library.District.CityId" class="form-control" asp-items="ViewBag.CityId" onchange="GetDistricts(this.value)">
+                    <option selected disabled>
+                        Şehir seçiniz
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Library.DistrictId" class="control-label" ></label>
+                <select asp-for="Library.DistrictId" class="form-control" onchange="GetLibraries(this.value)"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="LibraryId" class="control-label"></label>
+                <select asp-for="LibraryId" class="form-control" ></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
